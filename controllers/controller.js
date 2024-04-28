@@ -1,4 +1,4 @@
-import autoBind from 'auto-bind';
+const autoBind = require("auto-bind");
 
 class controller{
     constructor(){

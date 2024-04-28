@@ -3,7 +3,7 @@ const User=require("./../models/user")
 const{check,validationResult}=require('express-validator');
 
 
-class userController extends controller{
+class userController{
     async getAllUser(req,res){
         let users=await User.find({});
         res.status(200).json({
