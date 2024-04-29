@@ -24,7 +24,7 @@ app.use(session({
   saveUninitialized: true
 }));
 app.use(flash());
-app.use('/user',require('./routes/users'));
+app.use('/',require('./routes/index'));
 
 
 app.set('view engin','ejs');

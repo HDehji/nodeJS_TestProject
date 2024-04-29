@@ -3,23 +3,42 @@ const User=require("./../models/user")
 const{check,validationResult}=require('express-validator');
 
 
-class userController{
-    async getAllUser(req,res){
-        let users=await User.find({});
-        res.status(200).json({
+class userController extends controller{
+    async getAllUser(req,res,next){
+        
+        try {    
+            let users=await User.find({});
+            res.status(200).json({
             data:users,
             success:true
-        });
+             });
+            
+        } catch (err) {
+            next(err)
+        }
+    
      }
 
-    async getOneUsr(req,res){
-        let user=await User.findById(req.params.id);
-        res.status(200).json({
-        data:user,
-        success:true
-      })}
-    async createUser(req,res){
-        const errors=validationResult(req);
+    async getOneUsr(req,res,next){
+        try {
+            let user=await User.findById(req.params.id);
+            // if (!user) {
+            //     this.error("چنین کاربری وجود ندارد",404)
+            // }
+            res.status(200).json({
+            data:user,
+            success:true
+            })}
+         catch (err) {
+            err.message="چنین کاربری وجود ندارد"
+            err.status=404
+            next(err)
+        }
+    }
+       
+    async createUser(req,res,next){
+        try {
+            const errors=validationResult(req);
         if(!errors.isEmpty()){
             return res.status(422).json({errors:errors.array()});
         };
@@ -34,21 +53,33 @@ class userController{
             data:"یوزر جدید با موفقعیت ثبت شد",
             success:true
         });
-     }
-    async deleteUser(req,res){
+        }
+         catch (err) {
+            next(err)
+        }
+    }
+    async deleteUser(req,res,next){
+       try {
         await User.deleteOne({_id:req.params.id});
         res.status(200).json({
             data:"یوزر با موفقعیت حذف شد",
             success:true
         });
+       } catch (err) {
+        next(err)
+       }
      }
 
-    async updateUser(req,res){
-        await User.updateMany({_id:req.params.id},{$set:req.body});
+    async updateUser(req,res,next){
+        try {
+            await User.updateMany({_id:req.params.id},{$set:req.body});
           res.status(200).json({
             data:"یوزر با موفقعیت اپدیت شد",
             success:true
         });
+        } catch (err) {
+            next(errr)
+        }
      }
 
 }
