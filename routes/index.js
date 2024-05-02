@@ -1,7 +1,8 @@
 const express = require('express');
 const router=express.Router();
 
-router.use("/user",require("./users"))
+router.use("/user",require("./users"));
+router.use("/auth",require("./auth"));
 router.all(("/*"),(req,res,next)=>{
     try {
         let err=new Error('چنین صفحه ای یافت نشد');

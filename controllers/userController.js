@@ -40,11 +40,12 @@ class userController extends controller{
         try {
             const errors=validationResult(req);
         if(!errors.isEmpty()){
-            return res.status(422).json({errors:errors.array()});
+            let myErrors=errors.array().map(err=>err.msg);
+            return res.status(422).json({errors:myErrors});
         };
     
         let newUser=new User({
-            first_name:req.body.first_name,
+            username:req.body.username,
             email:req.body.email,
             password:req.body.password,        
         });
