@@ -1,6 +1,7 @@
 const passport=require('passport');
 const localStrategy=require('passport-local').Strategy;
 const User=require('../models/user')
+const bcrypt = require('bcryptjs');
 
 passport.serializeUser((user,done)=>{
     done(null,user.id)
@@ -16,7 +17,7 @@ passport.use("local.register", new localStrategy(
         usernameField:'email',
         passwordField:'password',
         passReqToCallback:true,
-    },async(req,email,password,done)=>{
+    },async(req,email,password,done)=>{ 
         try {
             let user=await User.findOne({email:req.body.email});
             if (user) {
@@ -44,7 +45,7 @@ passport.use("local.login",new localStrategy(
     },async(req,email,password,done)=>{
         try {
             let user=await User.findOne({email:req.body.email})
-            if(!user||user.password!=req.body.password){
+            if( !user|| !bcrypt.compareSync(req.body.password, user.password)){
                 return done(null,false,req.flash('errors','ایمیل یا رمز اشتباه است'))
             }
             done(null,user)
