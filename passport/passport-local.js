@@ -21,12 +21,12 @@ passport.use("local.register", new localStrategy(
         try {
             let user=await User.findOne({email:req.body.email});
             if (user) {
-                return done(null,false,req.flash('errors','چنین کاربری یا این ایمیل وجود دارد'))
+                return done(null,false,req.flash('errors','چنین کاربری با این ایمیل وجود دارد'))
             }
             const newUser=new User({
-               username:req.body.username,
+               username:req.body.email.slice(0,req.body.email.indexOf('@')),
                 email:req.body.email,
-                password:req.body.password,
+                password:bcrypt.hashSync(req.body.password,8),
             });
             
             await newUser.save();

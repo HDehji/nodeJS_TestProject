@@ -8,7 +8,7 @@ class dashboardController extends controller{
 
      async index(req,res,next){
       try {
-         res.render('../views/index.ejs')
+         res.render('../views/dashboard.ejs')
       } catch (error) {
          
       }

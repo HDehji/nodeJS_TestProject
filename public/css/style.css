@@ -1,0 +1,12 @@
+table{
+    border: 1px solid purple;
+}
+
+table td{
+    border: 1px solid purple;
+    padding: 3px 5px;
+}
+div{
+    padding: 5px 5px;
+    padding-bottom: 20px;
+}

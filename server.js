@@ -43,7 +43,6 @@ app.use((req,res,next)=>{
 
 app.use('/',require('./routes/index'));
 
-
 app.set('view engin','ejs');
 
 app.listen(config.port,()=>{

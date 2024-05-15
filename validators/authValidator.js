@@ -4,7 +4,6 @@ const validator=require("./validator")
 module.exports=new class authValidator extends validator{
     register(){
         return     [
-            check('username','نام کاربر نمیتواند خالی باشد').not().isEmpty(),
             check('email','فرمت ایمیل صحیح نمی باشد').isEmail(),
             check('password','طول پسورد باید حداقل 5 کاراکتر باشد').isLength({min:5})
         ]

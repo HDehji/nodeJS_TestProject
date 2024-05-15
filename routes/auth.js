@@ -14,6 +14,9 @@ router.use((req,res,next)=>{
     next();
 })
 
+router.get('/register',authController.registerForm)
+router.get('/login',authController.loginForm)
+
 router.post("/register",authValidator.register(),authController.register);
 router.post("/login",authValidator.login(),authController.login);
 

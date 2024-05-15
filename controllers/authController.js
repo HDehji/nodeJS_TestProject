@@ -6,12 +6,28 @@ const{check,validationResult}=require('express-validator');
 
 class authController extends controller{
 
+   async loginForm(req,res,next){
+      try {
+         res.render('auth/login.ejs',{errors:req.flash('errors')})
+      } catch (err) {
+       next(err)  
+      }
+   }
+   async registerForm(req,res,next){
+      try {
+         res.render('auth/register.ejs')
+      } catch (err) {
+       next(err)  
+      }
+   }
+
      async login(req,res,next){
         try {    
                const errors=validationResult(req);
                if(!errors.isEmpty()){
                   let myErrors=errors.array().map(err=>err.msg);
-                  return res.status(422).json({errors:myErrors});
+                  req.flash('errors',myErrors)
+                  return res.render('auth/login.ejs',{errors:req.flash('errors')})
                  };
                  passport.authenticate('local.login',(err,user)=>{
                   if (!user) return res.send('عملیات ناموفق بود')
@@ -29,7 +45,8 @@ class authController extends controller{
                const errors=validationResult(req);
                if(!errors.isEmpty()){
                   let myErrors=errors.array().map(err=>err.msg);
-                  return res.status(422).json({errors:myErrors});
+                  req.flash('errors',myErrors)
+                  return res.redirect('/auth/register')
                };
             passport.authenticate('local.register',{
                successRedirect:'/dashboard',
